@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas width="600", height="600"></canvas>
+    <script>
+        let canvas = document.querySelector('canvas');
+        let context = canvas.getContext('2d');
+
+        // context.fillStyle = 'blue'
+        // // creating new shape, drawing rectangle and filling color
+        // context.fillRect(100, 100, 400, 400);  
+        
+        context.lineWidth=4;
+        context.beginPath();
+        context.rect(100, 100, 400, 400);
+        context.stroke();
+
+        context.beginPath();
+        context.ellipse(240, 220, 30, 45, Math.PI, 0, Math.PI * 2);
+        context.stroke();
+
+        context.beginPath();
+        context.arc(240, 245, 5, 0, Math.PI*2);
+        context.stroke();
+
+        context.beginPath();
+        context.ellipse(360, 220, 30, 45, Math.PI, 0, Math.PI * 2);
+        context.stroke();
+
+        context.beginPath();
+        context.arc(360, 245, 5, 0, Math.PI*2);
+        context.stroke();
+        // context.fill('black')
+
+        context.beginPath();
+        context.arc(300, 320, 100, 0, Math.PI);
+        context.stroke();
+    </script>
+</body>
+</html>
