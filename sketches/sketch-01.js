@@ -7,45 +7,11 @@ const settings = {
   // orientation: 'landscape'
 };
 
-// const sketch = () => {
-//   return ({ context, width, height }) => {
-//     context.fillStyle = 'white';
-//     context.fillRect(0, 0, width, height);
-//     context.lineWidth = width * 0.01;
-    
-//     const gap = width * 0.03;
-//     const w = width * 0.10;
-//     const h = height * 0.10;
-//     const ix = width * 0.17;
-//     const iy = height * 0.17;
-//     const off = width * 0.02;
-//     let x, y;
-
-//     for (let i=0; i<5; i++){
-//       for (let j=0; j<5; j++){
-//           x=ix + (w + gap)*i;
-//           y=iy + (h + gap)*j;
-  
-//           context.beginPath();
-//           context.rect(x, y, w, h);
-//           context.stroke();
-  
-//           if(Math.random() > 0.5){
-//               context.beginPath();
-//               context.rect(x + off, y + off, w - (off*2), h - (off*2));
-//               context.stroke();
-//           }
-//       }
-//   }
-//   };
-// };
-
 const sketch = () => {
   return ({ context, width, height }) => {
     context.fillStyle = 'black';
     context.fillRect(0, 0, width, height);
-    // context.fillStyle = 'black';
-    // context.fill();
+    context.strokeStyle = 'white';
     context.lineWidth = width * 0.01;
     
     const gap = width * 0.03;
@@ -53,7 +19,7 @@ const sketch = () => {
     const h = height * 0.10;
     const ix = width * 0.17;
     const iy = height * 0.17;
-    const off = width * 0.07;
+    const off = width * 0.02;
     let x, y;
 
     for (let i=0; i<5; i++){
@@ -63,23 +29,17 @@ const sketch = () => {
   
           context.beginPath();
           context.rect(x, y, w, h);
-          context.strokeStyle = 'white';
           context.stroke();
   
           if(Math.random() > 0.5){
               context.beginPath();
               context.rect(x + off, y + off, w - (off*2), h - (off*2));
-              // if(Math.random() > 0.5){
-              //   context.translate(x + off, y + off);
-              //   context.rotate(20 * Math.PI/180);
-              // }
-              // context.translate(x + off, y + off);
-              context.strokeStyle = 'green';
               context.stroke();
           }
       }
   }
   };
 };
+
 
 canvasSketch(sketch, settings);
