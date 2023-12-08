@@ -21,10 +21,13 @@ const sketch = () => {
     context.fillRect(0, 0, width, height);
     context.fillStyle = 'black';
 
-    const num = 15;
+    const num = 50;
 
     const cx = width*0.5;
     const cy = width*0.5;
+    // const cx = 0;
+    // const cy = 0;
+
     const w = width*0.01;
     const h = width*0.1;
     const r = width*0.35;
@@ -51,7 +54,7 @@ const sketch = () => {
       context.scale(random.range(0.1, 2), random.range(0.2, 0.5));
 
       context.beginPath();
-      context.rect(-w*0.5, random.range(0, -h*0.5), w, h);
+      context.rect(-w*0.5, random.range(1, -h*0.5), w, h);
       context.fill();
       context.restore();
 
@@ -63,7 +66,7 @@ const sketch = () => {
       context.lineWidth = random.range(5, 20);
 
       context.beginPath();
-      context.arc(0, 0, r * random.range(0.7, 1.3), slice * random.range(1, -6), slice * random.range(1, 7));
+      context.arc(0, 0, r * random.range(0.7, 1.3), slice * random.range(1, -8), slice * random.range(1, 10));
       context.stroke();
       context.restore();
 
