@@ -1,9 +1,11 @@
 const canvasSketch = require('canvas-sketch');
 const math = require('canvas-sketch-util/math');
 const random = require('canvas-sketch-util/random');
+const Tweakpane = require('tweakpane');
 
 const settings = {
-  dimensions: [ 1080, 1080 ]
+  dimensions: [ 1080, 1080 ],
+  // animate: true
 };
 
 // const degToRad = (deg) => {
@@ -15,13 +17,18 @@ const settings = {
 // }
 
 
+const params = {
+  strokes: 50,
+}
+
 const sketch = () => {
   return ({ context, width, height }) => {
     context.fillStyle = 'white';
     context.fillRect(0, 0, width, height);
     context.fillStyle = 'black';
+  
 
-    const num = 50;
+    const num = params.strokes;
 
     const cx = width*0.5;
     const cy = width*0.5;
@@ -70,9 +77,65 @@ const sketch = () => {
       context.stroke();
       context.restore();
 
+      // Clock Center
+
+      context.save();
+      context.translate(cx, cy);
+      // context.rotate(-angle);
+      // context.lineWidth = random.range(5, 20);
+
+      context.beginPath();
+      context.arc(0, 0, r*0.05, 0, math.degToRad(360));
+      
+      context.fillStyle = 'black';
+      context.fill();
+      context.stroke();
+      context.restore();
+
+      // Hour hand
+      context.save();
+      context.translate(cx, cy);
+      // context.rotate(-angle);
+      // context.lineWidth = random.range(5, 20);
+
+      context.beginPath();
+      context.rect(-9*0.5, 0, 9, 80);
+      
+      context.fillStyle = 'black';
+      context.fill();
+      context.stroke();
+      context.restore();
+
+      // Minute hand
+      context.save();
+      context.translate(cx, cy);
+      context.rotate(math.degToRad(120));
+      // context.lineWidth = random.range(5, 20);
+
+      context.beginPath();
+      context.rect(-5*0.5, 0, 5, 150);
+      
+      context.fillStyle = 'black';
+      context.fill();
+      context.stroke();
+      context.restore();
+
+
 
     }
   };
 };
+
+
+const createPane = () => {
+  const pane = new Tweakpane.Pane();
+  let folder;
+
+  folder = pane.addFolder({title:'Parameters'});
+  folder.addInput(params, "strokes", {min:5, max:100, step:1});
+
+}
+
+createPane();
 
 canvasSketch(sketch, settings);
