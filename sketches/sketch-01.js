@@ -52,22 +52,23 @@ const sketch = () => {
     
             let noise = Math.random();
 
-            if(noise > 0.8){
+            if(noise > 0.5){
                 context.save();
                 context.beginPath();
                 context.rect(x + off, y + off, w - (off*2), h - (off*2));
-                context.strokeStyle = 'yellow';
+                // context.strokeStyle = 'yellow';
                 context.stroke();
                 context.restore();
             }
-            else if (noise < 0.2){
-              context.save();
-              context.beginPath();
-              context.rect(x + off, y + off, w - (off*2), h - (off*2));
-              context.strokeStyle = 'red';
-              context.stroke();
-              context.restore();
-          }
+          //   else if (noise < 0.1){
+          //     context.save();
+          //     context.beginPath();
+          //     // context.rect(x + off, y + off, w - (off*2), h - (off*2));
+          //     context.arc(x + w/2, y + h/2, (w - (off*2))/2, 0, (Math.PI/180)*360);
+          //     // context.strokeStyle = 'red';
+          //     context.stroke();
+          //     context.restore();
+          // }
         }
     }
     };
