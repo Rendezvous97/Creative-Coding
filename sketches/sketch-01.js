@@ -5,7 +5,7 @@ const Tweakpane = require('tweakpane');
 
 const settings = {
   dimensions: [ 1080, 1080 ],
-  animate: true,
+  animate: false,
   // timeScale: 0.2,
 
   // dimensions: 'A4',
@@ -34,15 +34,16 @@ const sketch = () => {
       context.fillStyle = 'black';
       context.fillRect(0, 0, width, height);
       context.strokeStyle = 'white';
-      context.lineWidth = width * 0.01;
+      context.lineWidth = width * 0.005;
       
-      const gap = width * 0.03;
+      const gap = width * 0.04;
       const w = width * 0.10;
       const h = height * 0.10;
       const ix = width * 0.17;
       const iy = height * 0.17;
       const off = width * 0.02;
       let x, y;
+      
 
       for (let i=0; i<5; i++){
         for (let j=0; j<5; j++){
@@ -57,10 +58,11 @@ const sketch = () => {
     
             let noise = Math.random();
 
-            if(noise > 0.5){
+            if(noise > 0.7){
                 context.save();
                 context.beginPath();
                 context.rect(x + off, y + off, w - (off*2), h - (off*2));
+                context.lineWidth = width * 0.01;
                 // context.strokeStyle = 'yellow';
                 context.stroke();
                 context.restore();
@@ -94,3 +96,4 @@ createPane();
 
 
 canvasSketch(sketch, settings);
+
