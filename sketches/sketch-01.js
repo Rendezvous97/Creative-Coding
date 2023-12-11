@@ -1,5 +1,6 @@
 const canvasSketch = require('canvas-sketch');
 const { mapRange } = require('canvas-sketch-util/math');
+const random = require('canvas-sketch-util/random');
 const Tweakpane = require('tweakpane');
 
 const settings = {
@@ -18,12 +19,16 @@ const params = {
 }
 
 const sketch = () => {
+
+  
+
+
   return ({ context, width, height, frame }) => {
 
     let speed = params.speed;
 
-    speed = Math.floor(mapRange(speed, 1, 30, 30, 1));
-    console.log(speed);
+    speed = Math.floor(mapRange(speed, 1, 60, 30, 1));
+
 
     if (frame % speed === 0) {
       context.fillStyle = 'black';
@@ -81,7 +86,7 @@ const createPane = () => {
   let folder;
 
   folder = pane.addFolder({title:'Parameters'});
-  folder.addInput(params, "speed", {min:1, max:30});
+  folder.addInput(params, "speed", {min:1, max:60});
 
 }
 
