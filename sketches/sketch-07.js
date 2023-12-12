@@ -1,18 +1,24 @@
 const canvasSketch = require('canvas-sketch');
 const random = require('canvas-sketch-util/random');
+const Tweakpane = require('tweakpane');
 
 const settings = {
   dimensions: [ 1080, 1080 ]
 };
 
+const params = {
+  message: 'A',
+  theme: 'dark',
+};
+
 let manager;
 
-let text = 'A';
+let text = params.message;
 let fontSize = 1200;
 let fontFamily = 'serif';
 
 const typeCanvas = document.createElement('canvas');
-const typeContext = typeCanvas.getContext('2d');
+const typeContext = typeCanvas.getContext('2d', { willReadFrequently: true });
 
 const sketch = ({ context, width, height }) => {
 
@@ -25,18 +31,18 @@ const sketch = ({ context, width, height }) => {
   typeCanvas.height = rows;
 
   return ({ context, width, height }) => {
-    typeContext.fillStyle = 'black';
+    typeContext.fillStyle = params.theme === 'dark' ? 'black' : 'white';
     typeContext.fillRect(0, 0, cols, rows);
 
     fontSize = cols;
 
     // typeContext.font = '1200px serif';
     // typeContext.font = fontSize + "px " + fontFamily;
-    typeContext.fillStyle = 'white';
+    typeContext.fillStyle = params.theme === 'dark' ? 'white' : 'black';
     typeContext.font = `${fontSize}px ${fontFamily}`;
     typeContext.textBaseline = 'top';
     
-    const metrics = typeContext.measureText(text);
+    const metrics = typeContext.measureText(params.message);
     const mx = metrics.actualBoundingBoxLeft * -1;
     const my = metrics.actualBoundingBoxAscent * -1;
     const mw = metrics.actualBoundingBoxLeft + metrics.actualBoundingBoxRight;
@@ -48,11 +54,11 @@ const sketch = ({ context, width, height }) => {
     typeContext.save()
     typeContext.translate(tx, ty);
 
-    typeContext.beginPath();
-    typeContext.rect(mx, my, mw, mh);
-    typeContext.stroke();
+    // typeContext.beginPath();
+    // typeContext.rect(mx, my, mw, mh);
+    // typeContext.stroke();
 
-    typeContext.fillText(text, 0, 0);
+    typeContext.fillText(params.message, 0, 0);
     console.log(typeContext.fillStyle);
     typeContext.restore();
 
@@ -64,7 +70,7 @@ const sketch = ({ context, width, height }) => {
 
     // context.drawImage(typeCanvas, 0, 0);
 
-    context.fillStyle = 'black';
+    context.fillStyle = params.theme === 'dark' ? 'black' : 'white';
     context.fillRect(0, 0, width, height);
 
 
@@ -80,14 +86,15 @@ const sketch = ({ context, width, height }) => {
       const b = typeData[i * 4 + 2];
       const a = typeData[i * 4 + 3];
 
-      const glyph = getGlyph(r);
+      // const glyph = getGlyph(r);
+      const glyph = params.theme === 'dark' ? getGlyph(r) : getAntiGlyph(r);
 
       context.font = `${cell * 2}px ${fontFamily}`;
       if (Math.random() < 0.1) context.font = `${cell * 6}px ${fontFamily}`;
       
 
       // context.fillStyle = `rgb(${r}, ${g}, ${b})`;
-      context.fillStyle = 'white';
+      context.fillStyle = params.theme === 'dark' ? 'white' : 'black';
 
       context.save();
       context.translate(x, y);
@@ -106,24 +113,61 @@ const getGlyph = (v) => {
   if (v < 50) return '';
   if (v < 100) return '.';
   if (v < 150) return '-';
-  if (v < 200) return 'word';
+  if (v < 200) return '+';
 
   const glyphs = '_= /'.split('');
 
   return random.pick(glyphs);
 }
 
-const onKeyUp = (e) => {
-  text = e.key.toUpperCase();
-  manager.render();
-  // console.log(text);
+const getAntiGlyph = (v) => {
+  if (v > 50) return '';
+  if (v > 100) return '.';
+  if (v > 150) return '-';
+  if (v > 200) return '+';
+
+  const glyphs = '_= /'.split('');
+
+  return random.pick(glyphs);
 }
 
-document.addEventListener('keyup', onKeyUp);
+// const onKeyUp = (e) => {
+//   text = e.key.toUpperCase();
+//   manager.render();
+//   // console.log(text);
+// }
+
+// document.addEventListener('keyup', onKeyUp);
+
+
+const createPane = () => {
+  const pane = new Tweakpane.Pane()
+
+  let folder;
+
+  folder = pane.addFolder({title: 'Parameters'});
+  const messageInput = folder.addInput(params, 'message');
+
+  messageInput.on('change', () => {
+    text = params.message; // Update the text variable
+    manager.render(); // Trigger a re-render of the canvas
+  });
+
+  // folder = pane.addFolder({title: 'Theme'});
+  const themeInput = folder.addInput(params, 'theme', {options: {dark: 'dark', light: 'light'}})
+  themeInput.on('change', () => {
+    // text = params.message; // Update the text variable
+    manager.render(); // Trigger a re-render of the canvas
+  });
+}
+
+createPane();
+
 
 const start = async () => {
   manager = await canvasSketch(sketch, settings);
 }
+
 
 start();
 
